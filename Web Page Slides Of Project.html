@@ -1,0 +1,2093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Rahbar AI — Verified admission decision-support for Pakistani FSc students. Mid-Hackathon Presentation.">
+<meta name="author" content="Nisar Uddin">
+<title>Rahbar AI — Mid-Hackathon Presentation</title>
+
+<!-- ==== Google Fonts ==== -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- ==== GSAP (core + TextPlugin) ==== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+
+<!-- ==== Anime.js (micro-interactions) ==== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+
+<style>
+/* ============================================================
+   RAHBAR AI — WEB PRESENTATION
+   Aesthetic: Livelier Tech / Gametic
+   Motion personality: Confident, precise, keynote-grade
+   ============================================================ */
+
+/* ==== Reset ==== */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #05070D;
+    color: #F9FAFB;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+/* ==== Root Variables ==== */
+:root {
+    /* Backgrounds */
+    --bg-deep: #05070D;
+    --bg-navy: #0A0E1A;
+    --bg-indigo: #10102A;
+    --bg-teal: #062A2A;
+    --bg-purple: #160A2E;
+    --bg-amber: #1A1408;
+    --bg-cream: #F5F1E8;
+    --bg-offwhite: #FAFAF7;
+
+    /* Accents */
+    --emerald: #10B981;
+    --emerald-bright: #34D399;
+    --amber: #F59E0B;
+    --amber-bright: #FBBF24;
+    --danger: #EF4444;
+    --indigo: #6366F1;
+    --purple: #A855F7;
+
+    /* Text */
+    --text-primary: #F9FAFB;
+    --text-secondary: #D1D5DB;
+    --text-muted: #9CA3AF;
+    --text-dim: #6B7280;
+    --text-dark: #0A0E1A;
+
+    /* Gradients */
+    --grad-signature: linear-gradient(135deg, #10B981 0%, #F59E0B 100%);
+    --grad-emerald: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+    --grad-cool: linear-gradient(135deg, #6366F1 0%, #A855F7 100%);
+
+    /* Typography Scale */
+    --fs-hero: clamp(4rem, 9vw, 8rem);
+    --fs-mega: clamp(3rem, 6vw, 5.5rem);
+    --fs-title: clamp(2.25rem, 4vw, 3.75rem);
+    --fs-subtitle: clamp(1.5rem, 2.5vw, 2.25rem);
+    --fs-lead: clamp(1.125rem, 1.6vw, 1.5rem);
+    --fs-body: clamp(1rem, 1.2vw, 1.175rem);
+    --fs-caption: clamp(0.8125rem, 1vw, 0.9375rem);
+    --fs-micro: 0.75rem;
+
+    /* Fonts */
+    --font-body: 'Inter', sans-serif;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* Spacing */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2.5rem;
+    --space-xl: 4rem;
+    --space-2xl: 6rem;
+
+    /* Radii */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+    --radius-pill: 999px;
+
+    /* Easing */
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* Z-index */
+    --z-slide: 10;
+    --z-nav: 100;
+    --z-progress: 200;
+}
+
+/* ==== Deck & Slides Layout ==== */
+#deck {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5rem 6rem 7rem;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.6s var(--ease-out-expo);
+}
+
+.slide.is-active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.slide-inner {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    max-height: 100%;
+    overflow: visible;
+}
+
+/* Background layers for each slide */
+.slide::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    transition: background 1.2s var(--ease-in-out-quart);
+}
+
+/* Per-slide backgrounds */
+#slide-1::before { background: radial-gradient(ellipse at 20% 30%, #10102A 0%, #05070D 60%); }
+#slide-2::before { background: radial-gradient(ellipse at 70% 50%, #0A0E1A 0%, #05070D 70%); }
+#slide-3::before { background: var(--bg-offwhite); }
+#slide-4::before { background: radial-gradient(ellipse at 30% 70%, #062A2A 0%, #05070D 70%); }
+#slide-5::before { background: radial-gradient(ellipse at 60% 40%, #10102A 0%, #05070D 70%); }
+#slide-6::before { background: radial-gradient(ellipse at 40% 60%, #0A0E1A 0%, #05070D 70%); }
+#slide-7::before { background: radial-gradient(ellipse at 30% 50%, #160A2E 0%, #05070D 70%); }
+#slide-8::before { background: radial-gradient(ellipse at 70% 40%, #10102A 0%, #05070D 70%); }
+#slide-9::before { background: radial-gradient(ellipse at 40% 50%, #0A0E1A 0%, #05070D 70%); }
+#slide-10::before { background: radial-gradient(ellipse at 60% 50%, #1A1408 0%, #05070D 70%); }
+#slide-11::before { background: #020308; }
+#slide-12::before { background: var(--bg-cream); }
+#slide-13::before { background: radial-gradient(ellipse at 50% 50%, #0A2A1F 0%, #05070D 70%); }
+
+/* Light-breakout slides override text colors */
+#slide-3, #slide-12 {
+    color: var(--text-dark);
+}
+
+/* Subtle grid overlay for dark slides */
+.slide--grid::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-size: 64px 64px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ==== Navigation ==== */
+.nav-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: var(--grad-signature);
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+    z-index: var(--z-progress);
+    transition: width 0.6s var(--ease-out-expo);
+}
+
+.nav-counter {
+    position: fixed;
+    top: 1.5rem;
+    right: 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    z-index: var(--z-nav);
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    transition: color 0.4s ease;
+}
+
+#slide-3.is-active ~ .nav-counter,
+#slide-12.is-active ~ .nav-counter {
+    color: rgba(10, 14, 26, 0.5);
+}
+
+.nav-counter .current {
+    color: var(--emerald-bright);
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.nav-counter .sep {
+    opacity: 0.4;
+}
+
+.nav-dots {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.6rem;
+    z-index: var(--z-nav);
+    padding: 0.75rem 1.25rem;
+    background: rgba(10, 14, 26, 0.6);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius-pill);
+}
+
+.nav-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    cursor: pointer;
+    transition: all 0.35s var(--ease-out-expo);
+    position: relative;
+}
+
+.nav-dot:hover {
+    background: rgba(255, 255, 255, 0.6);
+    transform: scale(1.4);
+}
+
+.nav-dot.is-active {
+    width: 26px;
+    border-radius: var(--radius-pill);
+    background: var(--grad-signature);
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.7);
+}
+
+/* Nav arrows */
+.nav-arrow {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(10, 14, 26, 0.55);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    z-index: var(--z-nav);
+    opacity: 0.5;
+    transition: all 0.3s var(--ease-out-expo);
+}
+
+.nav-arrow:hover {
+    opacity: 1;
+    background: rgba(16, 185, 129, 0.15);
+    border-color: rgba(16, 185, 129, 0.5);
+    color: var(--emerald-bright);
+    transform: translateY(-50%) scale(1.08);
+}
+
+.nav-arrow.prev { left: 1.5rem; }
+.nav-arrow.next { right: 1.5rem; }
+
+.nav-arrow svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2.5;
+}
+
+/* Hide arrows on first/last slide state (optional, controlled by JS) */
+.nav-arrow.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Reveal hint */
+.reveal-hint {
+    position: fixed;
+    bottom: 6rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--emerald-bright);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: var(--z-nav);
+    pointer-events: none;
+}
+
+.reveal-hint.is-visible {
+    opacity: 0.7;
+    animation: pulseHint 2s ease-in-out infinite;
+}
+
+@keyframes pulseHint {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.9; }
+}
+
+/* ============================================================
+   SLIDE TYPE STYLES
+   ============================================================ */
+
+/* ==== Common Typography ==== */
+.slide-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-title);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-lg);
+    color: var(--text-primary);
+}
+
+#slide-3 .slide-title,
+#slide-12 .slide-title {
+    color: var(--text-dark);
+}
+
+.slide-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--emerald-bright);
+    margin-bottom: var(--space-md);
+    display: inline-block;
+}
+
+#slide-3 .slide-kicker { color: #047857; }
+#slide-12 .slide-kicker { color: #92400E; }
+
+.one-liner {
+    font-family: var(--font-display);
+    font-size: var(--fs-subtitle);
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--text-primary);
+    border-left: 3px solid var(--emerald);
+    padding-left: var(--space-md);
+    margin-top: var(--space-lg);
+    max-width: 900px;
+}
+
+#slide-3 .one-liner { color: var(--text-dark); }
+#slide-12 .one-liner { color: var(--text-dark); }
+
+/* ==== Slide 1 — Title ==== */
+#slide-1 .slide-inner {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title-hero {
+    font-family: var(--font-display);
+    font-size: var(--fs-hero);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    background: var(--grad-signature);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: var(--space-md);
+}
+
+.title-subtitle {
+    font-size: var(--fs-lead);
+    font-weight: 400;
+    color: var(--text-secondary);
+    max-width: 720px;
+    margin: 0 auto var(--space-xl);
+    line-height: 1.5;
+}
+
+.title-footer {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    display: flex;
+    gap: var(--space-md);
+    align-items: center;
+    justify-content: center;
+}
+
+.title-footer .dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--emerald);
+    box-shadow: 0 0 8px var(--emerald);
+}
+
+/* Decorative floating orbs */
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.orb-1 {
+    width: 400px; height: 400px;
+    background: var(--emerald);
+    top: 10%; left: 5%;
+    animation: floatOrb 12s ease-in-out infinite;
+}
+
+.orb-2 {
+    width: 320px; height: 320px;
+    background: var(--amber);
+    bottom: 10%; right: 8%;
+    animation: floatOrb 15s ease-in-out infinite reverse;
+}
+
+@keyframes floatOrb {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(40px, -30px) scale(1.15); }
+}
+
+/* ==== Slide 2 — Problem ==== */
+.problem-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.problem-list li {
+    font-size: var(--fs-body);
+    line-height: 1.5;
+    color: var(--text-secondary);
+    padding-left: 2rem;
+    position: relative;
+}
+
+.problem-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 12px;
+    height: 2px;
+    background: var(--danger);
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+}
+
+.problem-list strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* ==== Slide 3 — Solution (Light Breakout) ==== */
+.capability-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.capability-card {
+    background: #FFFFFF;
+    border: 1px solid rgba(10, 14, 26, 0.08);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md) var(--space-lg);
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+    box-shadow: 0 1px 3px rgba(10, 14, 26, 0.04), 0 8px 24px rgba(10, 14, 26, 0.06);
+    transition: all 0.35s var(--ease-out-expo);
+}
+
+.capability-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(10, 14, 26, 0.08), 0 16px 40px rgba(10, 14, 26, 0.1);
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.capability-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.capability-text h3 {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.25rem;
+}
+
+.capability-text p {
+    font-size: 0.9375rem;
+    color: #4B5563;
+    line-height: 1.5;
+}
+
+/* ==== Slide 4 — Persona ==== */
+.persona-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    backdrop-filter: blur(20px);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.persona-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.persona-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--grad-emerald);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    box-shadow: 0 0 24px rgba(16, 185, 129, 0.4);
+}
+
+.persona-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--emerald-bright);
+    margin-bottom: 0.25rem;
+}
+
+.persona-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.persona-rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.persona-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: var(--space-md);
+    align-items: baseline;
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.persona-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+.persona-row dt {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+
+.persona-row dd {
+    font-size: 1.0625rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* ==== Slide 5 — Demo ==== */
+.demo-frame {
+    background: #0A0E1A;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 0.5rem;
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(16, 185, 129, 0.15);
+    margin-bottom: var(--space-md);
+    position: relative;
+    overflow: hidden;
+    max-height: 65vh;
+}
+
+.demo-frame::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 22px;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.demo-frame::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 14px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #FF5F56;
+    box-shadow: 14px 0 0 #FFBD2E, 28px 0 0 #27C93F;
+}
+
+.demo-frame img {
+    width: 100%;
+    max-height: 65vh;
+    object-fit: contain;
+    object-position: center;
+    border-radius: 12px;
+    margin-top: 22px;
+    display: block;
+    background: #F9FAFB;
+}
+
+.demo-url {
+    font-family: var(--font-mono);
+    font-size: 0.9375rem;
+    color: var(--emerald-bright);
+    text-align: center;
+    margin-top: var(--space-md);
+}
+
+.demo-url a {
+    border-bottom: 1px dashed currentColor;
+    transition: color 0.3s ease;
+}
+
+.demo-url a:hover { color: var(--amber-bright); }
+
+/* ==== Slide 6 — Architecture ==== */
+.arch-diagram {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 780px;
+    margin: 0 auto var(--space-lg);
+}
+
+.arch-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 3px solid var(--emerald);
+    border-radius: var(--radius-md);
+    padding: var(--space-md) var(--space-lg);
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: var(--space-md);
+    align-items: center;
+    transition: all 0.35s var(--ease-out-expo);
+    backdrop-filter: blur(12px);
+}
+
+.arch-box:hover {
+    border-left-color: var(--amber);
+    transform: translateX(6px);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.arch-box code {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--emerald-bright);
+}
+
+.arch-box span {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+}
+
+.arch-principle {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.35;
+    background: var(--grad-signature);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding: var(--space-lg) 0;
+    margin-bottom: var(--space-md);
+}
+
+.why-matters {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 780px;
+    margin: 0 auto;
+}
+
+.why-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 1rem;
+    color: var(--text-secondary);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.5s var(--ease-out-expo);
+}
+
+.why-item.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.why-item::before {
+    content: '→';
+    color: var(--emerald-bright);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* ==== Slide 7 — Tech Stack ==== */
+.stack-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.stack-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg) var(--space-md);
+    text-align: center;
+    transition: all 0.4s var(--ease-out-expo);
+    backdrop-filter: blur(12px);
+}
+
+.stack-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(16, 185, 129, 0.4);
+    background: rgba(16, 185, 129, 0.05);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.stack-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: var(--space-sm);
+}
+
+.stack-value {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.35;
+}
+
+.stack-value.mono {
+    font-family: var(--font-mono);
+    color: var(--emerald-bright);
+}
+
+/* ==== Slide 8 — Shipped Checklist ==== */
+.checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    max-width: 780px;
+    margin: 0 auto var(--space-lg);
+}
+
+.checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+    font-size: 1.0625rem;
+    color: var(--text-secondary);
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: all 0.5s var(--ease-out-expo);
+}
+
+.checklist li.is-revealed {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.check-icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid var(--emerald);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--emerald-bright);
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-top: 2px;
+}
+
+.checklist li strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* ==== Slide 9 — Numbers ==== */
+.numbers-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+}
+
+.number-block {
+    text-align: center;
+    padding: var(--space-md);
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: all 0.4s var(--ease-out-expo);
+}
+
+.number-block:hover {
+    background: rgba(16, 185, 129, 0.05);
+    border-color: rgba(16, 185, 129, 0.3);
+    transform: translateY(-4px);
+}
+
+.number-value {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1;
+    background: var(--grad-signature);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: var(--space-sm);
+    display: block;
+}
+
+.number-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    line-height: 1.4;
+}
+
+/* ==== Slide 10 — Roadmap ==== */
+.roadmap {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    max-width: 780px;
+    margin: 0 auto var(--space-lg);
+    position: relative;
+}
+
+.roadmap::before {
+    content: '';
+    position: absolute;
+    left: 11px;
+    top: 12px;
+    bottom: 12px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--emerald) 0%, var(--amber) 100%);
+    opacity: 0.3;
+    border-radius: 2px;
+}
+
+.roadmap-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.5s var(--ease-out-expo);
+    position: relative;
+}
+
+.roadmap-item.is-revealed {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.roadmap-marker {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--bg-navy);
+    border: 2px solid var(--amber);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.625rem;
+    color: var(--amber-bright);
+    z-index: 1;
+    margin-top: 2px;
+}
+
+.roadmap-content h4 {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.roadmap-content p {
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* ==== Slide 11 — Philosophy ==== */
+#slide-11 .slide-inner {
+    text-align: center;
+    max-width: 1100px;
+}
+
+.philosophy-line {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3.5vw, 3rem);
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.9s var(--ease-out-expo);
+    padding: var(--space-sm) 0;
+}
+
+.philosophy-line.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.philosophy-line em {
+    font-style: normal;
+    background: var(--grad-signature);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+}
+
+.philosophy-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    min-height: 60vh;
+    justify-content: center;
+}
+
+/* ==== Slide 12 — Closing Quote ==== */
+#slide-12 .slide-inner {
+    text-align: center;
+    max-width: 1000px;
+}
+
+.quote-text {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 500;
+    line-height: 1.45;
+    letter-spacing: -0.01em;
+    color: var(--text-dark);
+    min-height: 40vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-lg);
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+.quote-text .accent {
+    color: #047857;
+    font-weight: 600;
+}
+
+/* ==== Slide 13 — Contact ==== */
+#slide-13 .slide-inner { text-align: center; max-width: 900px; }
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
+    text-align: left;
+}
+
+.contact-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    transition: all 0.4s var(--ease-out-expo);
+    text-decoration: none;
+    display: block;
+}
+
+.contact-card:hover {
+    border-color: rgba(16, 185, 129, 0.4);
+    background: rgba(16, 185, 129, 0.05);
+    transform: translateY(-4px);
+}
+
+.contact-card .contact-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+}
+
+.contact-card .contact-value {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--emerald-bright);
+    word-break: break-word;
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+/* Base entrance states — elements start hidden and animate in via JS */
+.anim-fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+}
+
+.anim-fade-in {
+    opacity: 0;
+}
+
+.anim-scale-in {
+    opacity: 0;
+    transform: scale(0.94);
+}
+
+.anim-slide-left {
+    opacity: 0;
+    transform: translateX(-24px);
+}
+
+.anim-slide-right {
+    opacity: 0;
+    transform: translateX(24px);
+}
+
+/* Reveal-pending (for sub-reveal slides) */
+.reveal-pending {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+/* Blinking cursor for typewriter */
+.typewriter-cursor {
+    display: inline-block;
+    width: 3px;
+    height: 1em;
+    background: var(--emerald-bright);
+    margin-left: 4px;
+    vertical-align: text-bottom;
+    animation: blink 1s steps(2) infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+/* Subtle pulse for key numbers */
+.pulse-glow {
+    animation: pulseGlow 3s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+    0%, 100% { filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.3)); }
+    50% { filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.7)); }
+}
+
+/* Ambient breathing glow for philosophy slide */
+#slide-11.is-active::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(16, 185, 129, 0.08) 0%, transparent 60%);
+    animation: breathe 8s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes breathe {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.05); }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+</style>
+</head>
+<body>
+
+    <!-- ============================================================
+     DECK — All slides live inside this container
+     ============================================================ -->
+<div id="deck">
+
+    <!-- Decorative floating orbs (visible on dark slides) -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+        <!-- ============================================================
+         SLIDE 1 — TITLE
+         ============================================================ -->
+    <section class="slide slide--grid" id="slide-1" data-slide="1">
+        <div class="slide-inner">
+            <h1 class="title-hero">Rahbar AI</h1>
+            <p class="title-subtitle">
+                Verified admission decision-support for Pakistani FSc students
+            </p>
+            <div class="title-footer">
+                <span>Mid-Hackathon Submission</span>
+                <span class="dot"></span>
+                <span>Nisar Uddin</span>
+                <span class="dot"></span>
+                <span>September 2026</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 2 — THE PROBLEM
+         ============================================================ -->
+    <section class="slide slide--grid" id="slide-2" data-slide="2">
+        <div class="slide-inner">
+            <span class="slide-kicker">The Problem</span>
+            <h2 class="slide-title">Pakistani FSc students miss admission opportunities</h2>
+            <ul class="problem-list">
+                <li class="anim-slide-right">Information is scattered across portals, PDFs, notices, and WhatsApp rumors</li>
+                <li class="anim-slide-right">Many students don't know they can apply with <strong>FSc Part-I marks</strong> before their final result</li>
+                <li class="anim-slide-right">Aggregate formulas differ by university — easy to miscalculate</li>
+                <li class="anim-slide-right">Generic AI tools guess — they can't be trusted with critical deadlines</li>
+            </ul>
+            <p class="one-liner anim-fade-up">
+                "The problem isn't lack of information. It's converting it into the right decision at the right time."
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 3 — THE SOLUTION (Light Breakout)
+         ============================================================ -->
+    <section class="slide" id="slide-3" data-slide="3">
+        <div class="slide-inner">
+            <span class="slide-kicker">The Solution</span>
+            <h2 class="slide-title">Rahbar AI turns verified data into clear decisions</h2>
+            <div class="capability-grid">
+                <div class="capability-card anim-scale-in">
+                    <div class="capability-icon">📊</div>
+                    <div class="capability-text">
+                        <h3>Aggregate Calculator</h3>
+                        <p>Correct formula, transparent breakdown</p>
+                    </div>
+                </div>
+                <div class="capability-card anim-scale-in">
+                    <div class="capability-icon">⏰</div>
+                    <div class="capability-text">
+                        <h3>Deadline Status</h3>
+                        <p>Dynamically computed — Open / Approaching / Closed / Extended</p>
+                    </div>
+                </div>
+                <div class="capability-card anim-scale-in">
+                    <div class="capability-icon">📄</div>
+                    <div class="capability-text">
+                        <h3>Document Checklist</h3>
+                        <p>Exactly what each university requires</p>
+                    </div>
+                </div>
+                <div class="capability-card anim-scale-in">
+                    <div class="capability-icon">🤖</div>
+                    <div class="capability-text">
+                        <h3>AI Explanation</h3>
+                        <p>Plain-language meaning of the result</p>
+                    </div>
+                </div>
+            </div>
+            <p class="one-liner anim-fade-up">
+                "Not another information portal. A decision-support system."
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 4 — TARGET USER
+         ============================================================ -->
+    <section class="slide slide--grid" id="slide-4" data-slide="4">
+        <div class="slide-inner">
+            <span class="slide-kicker">Target User</span>
+            <h2 class="slide-title">Who this is for</h2>
+            <div class="persona-card anim-fade-up">
+                <div class="persona-header">
+                    <div class="persona-avatar">🎓</div>
+                    <div>
+                        <div class="persona-label">Primary Persona</div>
+                        <div class="persona-title">FSc Part-II Student</div>
+                    </div>
+                </div>
+                <dl class="persona-rows">
+                    <div class="persona-row">
+                        <dt>Situation</dt>
+                        <dd>Wants to apply but unsure if they can before their result arrives</dd>
+                    </div>
+                    <div class="persona-row">
+                        <dt>Pain</dt>
+                        <dd>Risk of missing an entire admission cycle due to uncertainty</dd>
+                    </div>
+                    <div class="persona-row">
+                        <dt>Outcome</dt>
+                        <dd>A clear decision and a prioritized next action — before it's too late</dd>
+                    </div>
+                </dl>
+            </div>
+            <p class="one-liner anim-fade-up">
+                "Rahbar exists to prevent that avoidable loss."
+            </p>
+        </div>
+    </section>
+
+        <!-- ============================================================
+         SLIDE 5 — LIVE DEMO
+         ============================================================ -->
+    <section class="slide slide--grid" id="slide-5" data-slide="5">
+        <div class="slide-inner">
+            <span class="slide-kicker">Live Demo</span>
+            <h2 class="slide-title">See it live</h2>
+            <div class="demo-frame anim-scale-in">
+                <img src="https://raw.githubusercontent.com/nisaruddin-dev/rahbar-ai/main/app-screenshot.png" alt="Rahbar AI live app screenshot">
+            </div>
+            <p class="demo-url anim-fade-up">
+                <a href="https://rahbar-ai.streamlit.app" target="_blank" rel="noopener">
+                    rahbar-ai.streamlit.app
+                </a>
+                &nbsp;— try it yourself
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 6 — ARCHITECTURE (with sub-reveal)
+         ============================================================ -->
+    <section class="slide slide--grid" id="slide-6" data-slide="6" data-subreveal="true">
+        <div class="slide-inner">
+            <span class="slide-kicker">Architecture</span>
+            <h2 class="slide-title">How it's built</h2>
+            <div class="arch-diagram">
+                <div class="arch-box anim-slide-left">
+                    <code>app.py</code>
+                    <span>Streamlit UI + Gemini call — orchestration only</span>
+                </div>
+                <div class="arch-box anim-slide-left">
+                    <code>engine.py</code>
+                    <span>Deterministic logic — never imports Streamlit</span>
+                </div>
+                <div class="arch-box anim-slide-left">
+                    <code>data/universities.py</code>
+                    <span>Verified university data registry</span>
+                </div>
+            </div>
+            <div class="arch-principle anim-fade-up">
+                AI = Language. Rules = Decisions. Code = Calculations. Data = Truth.
+            </div>
+            <div class="why-matters">
+                <div class="why-item reveal-pending">The AI never calculates — it only explains</div>
+                <div class="why-item reveal-pending">Every critical fact is traceable to a source</div>
+                <div class="why-item reveal-pending">If Gemini fails, the deterministic output still renders</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 7 — TECH STACK
+         ============================================================ -->
+    <section class="slide slide--grid" id="slide-7" data-slide="7">
+        <div class="slide-inner">
+            <span class="slide-kicker">Tech Stack</span>
+            <h2 class="slide-title">Built with</h2>
+            <div class="stack-grid">
+                <div class="stack-card anim-fade-up">
+                    <div class="stack-label">Frontend</div>
+                    <div class="stack-value">Streamlit</div>
+                </div>
+                <div class="stack-card anim-fade-up">
+                    <div class="stack-label">AI</div>
+                    <div class="stack-value mono">Gemini<br>2.5 Flash</div>
+                </div>
+                <div class="stack-card anim-fade-up">
+                    <div class="stack-label">Language</div>
+                    <div class="stack-value">Python 3.10+</div>
+                </div>
+                <div class="stack-card anim-fade-up">
+                    <div class="stack-label">Data</div>
+                    <div class="stack-value">Verified Registry<br><span style="color:#9CA3AF;font-size:0.85rem;font-weight:400;">3 universities</span></div>
+                </div>
+                <div class="stack-card anim-fade-up">
+                    <div class="stack-label">Deploy</div>
+                    <div class="stack-value">Streamlit<br>Community Cloud</div>
+                </div>
+                <div class="stack-card anim-fade-up">
+                    <div class="stack-label">Code</div>
+                    <div class="stack-value mono">GitHub<br><span style="color:#9CA3AF;font-size:0.85rem;font-weight:400;">public repo</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 8 — WHAT SHIPS TODAY
+         ============================================================ -->
+    <section class="slide slide--grid" id="slide-8" data-slide="8" data-subreveal="true">
+        <div class="slide-inner">
+            <span class="slide-kicker">Shipped</span>
+            <h2 class="slide-title">What ships today</h2>
+            <ul class="checklist">
+                <li class="anim-slide-right">
+                    <span class="check-icon">✓</span>
+                    <span><strong>Aggregate calculator</strong> — 3 universities (NUST, UET Taxila, FAST)</span>
+                </li>
+                <li class="anim-slide-right">
+                    <span class="check-icon">✓</span>
+                    <span><strong>Dynamic deadline status</strong> — computed from date, not hardcoded</span>
+                </li>
+                <li class="anim-slide-right">
+                    <span class="check-icon">✓</span>
+                    <span><strong>Document checklist</strong> per university</span>
+                </li>
+                <li class="anim-slide-right">
+                    <span class="check-icon">✓</span>
+                    <span><strong>AI explanation</strong> via Gemini</span>
+                </li>
+                <li class="anim-slide-right">
+                    <span class="check-icon">✓</span>
+                    <span><strong>"What should I do next?"</strong> action engine</span>
+                </li>
+                <li class="anim-slide-right">
+                    <span class="check-icon">✓</span>
+                    <span><strong>Source + verification date</strong> on every result</span>
+                </li>
+                <li class="anim-slide-right">
+                    <span class="check-icon">✓</span>
+                    <span><strong>Graceful degradation</strong> when AI is unavailable</span>
+                </li>
+            </ul>
+            <p class="demo-url anim-fade-up">
+                Live at <a href="https://rahbar-ai.streamlit.app" target="_blank" rel="noopener">rahbar-ai.streamlit.app</a>
+            </p>
+        </div>
+    </section>
+
+        <!-- ============================================================
+         SLIDE 9 — BY THE NUMBERS
+         ============================================================ -->
+    <section class="slide slide--grid" id="slide-9" data-slide="9">
+        <div class="slide-inner">
+            <span class="slide-kicker">By the Numbers</span>
+            <h2 class="slide-title">The mid-hackathon in figures</h2>
+            <div class="numbers-grid">
+                <div class="number-block anim-fade-up">
+                    <span class="number-value" data-count="3">0</span>
+                    <span class="number-label">Universities<br>supported</span>
+                </div>
+                <div class="number-block anim-fade-up">
+                    <span class="number-value" data-count="5">0</span>
+                    <span class="number-label">Deterministic<br>engine functions</span>
+                </div>
+                <div class="number-block anim-fade-up">
+                    <span class="number-value" data-count="2">0</span>
+                    <span class="number-label">Python files<br>one-way dependency</span>
+                </div>
+                <div class="number-block anim-fade-up">
+                    <span class="number-value" data-count="1">0</span>
+                    <span class="number-label">Day<br>solo build</span>
+                </div>
+                <div class="number-block anim-fade-up">
+                    <span class="number-value" data-count="0">0</span>
+                    <span class="number-label">Hallucinated<br>numbers</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 10 — ROADMAP
+         ============================================================ -->
+    <section class="slide slide--grid" id="slide-10" data-slide="10" data-subreveal="true">
+        <div class="slide-inner">
+            <span class="slide-kicker">What's Next</span>
+            <h2 class="slide-title">The roadmap</h2>
+            <div class="roadmap">
+                <div class="roadmap-item reveal-pending">
+                    <div class="roadmap-marker">◆</div>
+                    <div class="roadmap-content">
+                        <h4>Merit prediction</h4>
+                        <p>Evidence-based competitiveness — never guarantees</p>
+                    </div>
+                </div>
+                <div class="roadmap-item reveal-pending">
+                    <div class="roadmap-marker">◆</div>
+                    <div class="roadmap-content">
+                        <h4>Two more universities</h4>
+                        <p>COMSATS and QAU — same registry pattern, one entry each</p>
+                    </div>
+                </div>
+                <div class="roadmap-item reveal-pending">
+                    <div class="roadmap-marker">◆</div>
+                    <div class="roadmap-content">
+                        <h4>RAG-based Q&amp;A</h4>
+                        <p>Grounded answers from official university admission PDFs</p>
+                    </div>
+                </div>
+                <div class="roadmap-item reveal-pending">
+                    <div class="roadmap-marker">◆</div>
+                    <div class="roadmap-content">
+                        <h4>Saved profiles</h4>
+                        <p>Account system and persistent student context</p>
+                    </div>
+                </div>
+                <div class="roadmap-item reveal-pending">
+                    <div class="roadmap-marker">◆</div>
+                    <div class="roadmap-content">
+                        <h4>Expanded action planning &amp; Urdu support</h4>
+                        <p>Bilingual explanations, gap-year planning, scholarship matching</p>
+                    </div>
+                </div>
+            </div>
+            <p class="one-liner anim-fade-up">
+                "Building trust first, features second."
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 11 — PHILOSOPHY (Signature moment — spacebar reveal)
+         ============================================================ -->
+    <section class="slide" id="slide-11" data-slide="11" data-subreveal="true">
+        <div class="slide-inner">
+            <div class="philosophy-container">
+                <div class="philosophy-line reveal-pending">Verified data outranks <em>generated text.</em></div>
+                <div class="philosophy-line reveal-pending">Deterministic calculation outranks <em>LLM calculation.</em></div>
+                <div class="philosophy-line reveal-pending">Uncertainty is better than <em>false confidence.</em></div>
+                <div class="philosophy-line reveal-pending">A smaller trusted dataset is better than a <em>larger unreliable one.</em></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 12 — CLOSING QUOTE
+         ============================================================ -->
+    <section class="slide" id="slide-12" data-slide="12">
+        <div class="slide-inner">
+            <div class="quote-text">
+                <p id="closing-quote"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 13 — CONTACT & LINKS
+         ============================================================ -->
+    <section class="slide slide--grid" id="slide-13" data-slide="13">
+        <div class="slide-inner">
+            <span class="slide-kicker">Contact</span>
+            <h2 class="slide-title">Try it. Break it. Tell me what's wrong.</h2>
+            <div class="contact-grid">
+                <a href="https://rahbar-ai.streamlit.app" target="_blank" rel="noopener" class="contact-card anim-fade-up">
+                    <div class="contact-label">Live App</div>
+                    <div class="contact-value">rahbar-ai.streamlit.app</div>
+                </a>
+                <a href="https://github.com/nisaruddin-dev/rahbar-ai" target="_blank" rel="noopener" class="contact-card anim-fade-up">
+                    <div class="contact-label">GitHub</div>
+                    <div class="contact-value">github.com/nisaruddin-dev/rahbar-ai</div>
+                </a>
+                <div class="contact-card anim-fade-up">
+                    <div class="contact-label">Builder</div>
+                    <div class="contact-value">Nisar Uddin</div>
+                </div>
+                <div class="contact-card anim-fade-up">
+                    <div class="contact-label">Submission</div>
+                    <div class="contact-value">HEC-NCEAC &amp; PEC Mid-Hackathon 2026</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+<!-- ==== END DECK ==== -->
+
+<!-- ============================================================
+     NAVIGATION & UI CHROME
+     ============================================================ -->
+
+<!-- Top progress bar -->
+<div class="nav-progress" id="nav-progress"></div>
+
+<!-- Slide counter (top right) -->
+<div class="nav-counter">
+    <span class="current" id="counter-current">01</span>
+    <span class="sep">/</span>
+    <span id="counter-total">13</span>
+</div>
+
+<!-- Previous / Next arrows -->
+<button class="nav-arrow prev is-hidden" id="nav-prev" aria-label="Previous slide">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+    </svg>
+</button>
+
+<button class="nav-arrow next" id="nav-next" aria-label="Next slide">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</button>
+
+<!-- Dot indicators -->
+<nav class="nav-dots" id="nav-dots" aria-label="Slide navigation"></nav>
+
+<!-- Reveal hint (only shows when sub-reveal is pending) -->
+<div class="reveal-hint" id="reveal-hint">Press Space to continue</div>
+
+<script>
+/* ============================================================
+   RAHBAR AI — PRESENTATION LOGIC
+   ============================================================ */
+
+// Config
+const CONFIG = {
+    totalSlides: 13,
+    transitionDuration: 0.7,
+    autoRevealDelay: 0.35
+};
+
+// State
+const state = {
+    currentSlide: 0,       // 0-indexed
+    subRevealIndex: 0,     // for slides with data-subreveal
+    subRevealQueue: [],    // elements to reveal on spacebar in current slide
+    typingComplete: false
+};
+
+/* ============================================================
+   SLIDE NAVIGATION (v2 — reliable reveal, faster transitions)
+   ============================================================ */
+
+const slides = document.querySelectorAll('.slide');
+const progressBar = document.getElementById('nav-progress');
+const counterCurrent = document.getElementById('counter-current');
+const counterTotal = document.getElementById('counter-total');
+const navPrev = document.getElementById('nav-prev');
+const navNext = document.getElementById('nav-next');
+const navDotsContainer = document.getElementById('nav-dots');
+const revealHint = document.getElementById('reveal-hint');
+
+counterTotal.textContent = String(CONFIG.totalSlides).padStart(2, '0');
+
+// Build nav dots
+slides.forEach((_, index) => {
+    const dot = document.createElement('button');
+    dot.className = 'nav-dot';
+    dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
+    dot.addEventListener('click', () => goToSlide(index));
+    navDotsContainer.appendChild(dot);
+});
+
+const navDots = document.querySelectorAll('.nav-dot');
+
+function updateNavUI() {
+    counterCurrent.textContent = String(state.currentSlide + 1).padStart(2, '0');
+    const progress = ((state.currentSlide + 1) / CONFIG.totalSlides) * 100;
+    progressBar.style.width = progress + '%';
+    navDots.forEach((dot, i) => {
+        dot.classList.toggle('is-active', i === state.currentSlide);
+    });
+    navPrev.classList.toggle('is-hidden', state.currentSlide === 0);
+    navNext.classList.toggle('is-hidden', state.currentSlide === CONFIG.totalSlides - 1);
+}
+
+/**
+ * Prepare a slide for entry — set initial states via GSAP (not CSS).
+ * This is the key fix: GSAP owns the opacity, not CSS.
+ */
+function prepareSlide(slide) {
+    // Reset any stuck inline styles from previous animations
+    slide.querySelectorAll('*').forEach(el => {
+        el.style.opacity = '';
+        el.style.transform = '';
+    });
+
+    // Collect elements by animation type
+    const fadeUps = slide.querySelectorAll('.anim-fade-up');
+    const fadeIns = slide.querySelectorAll('.anim-fade-in');
+    const scaleIns = slide.querySelectorAll('.anim-scale-in');
+    const slideLefts = slide.querySelectorAll('.anim-slide-left');
+    const slideRights = slide.querySelectorAll('.anim-slide-right');
+    const kicker = slide.querySelector('.slide-kicker');
+    const title = slide.querySelector('.slide-title, .title-hero');
+    const subtitle = slide.querySelector('.title-subtitle');
+    const footer = slide.querySelector('.title-footer');
+    const counters = slide.querySelectorAll('.number-value[data-count]');
+
+    // Set ALL animatable content to hidden via gsap.set
+    const allTargets = [
+        ...fadeUps, ...fadeIns, ...scaleIns, ...slideLefts, ...slideRights,
+        kicker, title, subtitle, footer
+    ].filter(Boolean);
+
+    gsap.set(allTargets, { opacity: 0 });
+
+    // Pre-set directional offsets
+    if (kicker) gsap.set(kicker, { y: 12 });
+    if (title) gsap.set(title, { y: 24, scale: 0.96 });
+    if (subtitle) gsap.set(subtitle, { y: 16 });
+    if (footer) gsap.set(footer, { y: 12 });
+    if (fadeUps.length) gsap.set(fadeUps, { y: 24 });
+    if (scaleIns.length) gsap.set(scaleIns, { scale: 0.94 });
+    if (slideLefts.length) gsap.set(slideLefts, { x: -24 });
+    if (slideRights.length) gsap.set(slideRights, { x: 24 });
+
+    // Reset counters
+    counters.forEach(el => { el.textContent = '0'; });
+}
+
+/**
+ * Animate a slide in.
+ */
+function animateSlideIn(slide) {
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    const kicker = slide.querySelector('.slide-kicker');
+    const title = slide.querySelector('.slide-title, .title-hero');
+    const subtitle = slide.querySelector('.title-subtitle');
+    const footer = slide.querySelector('.title-footer');
+    const fadeUps = slide.querySelectorAll('.anim-fade-up');
+    const fadeIns = slide.querySelectorAll('.anim-fade-in');
+    const scaleIns = slide.querySelectorAll('.anim-scale-in');
+    const slideLefts = slide.querySelectorAll('.anim-slide-left');
+    const slideRights = slide.querySelectorAll('.anim-slide-right');
+    const counters = slide.querySelectorAll('.number-value[data-count]');
+
+    if (kicker) tl.to(kicker, { opacity: 1, y: 0, duration: 0.4 }, 0.05);
+    if (title) tl.to(title, { opacity: 1, y: 0, scale: 1, duration: 0.6 }, 0.15);
+    if (subtitle) tl.to(subtitle, { opacity: 1, y: 0, duration: 0.5 }, 0.4);
+    if (footer) tl.to(footer, { opacity: 1, y: 0, duration: 0.5 }, 0.55);
+
+    if (fadeUps.length) {
+        tl.to(fadeUps, { opacity: 1, y: 0, duration: 0.5, stagger: 0.08 }, 0.45);
+    }
+    if (fadeIns.length) {
+        tl.to(fadeIns, { opacity: 1, duration: 0.5, stagger: 0.07 }, 0.45);
+    }
+    if (scaleIns.length) {
+        tl.to(scaleIns, { opacity: 1, scale: 1, duration: 0.55, stagger: 0.08, ease: 'back.out(1.2)' }, 0.5);
+    }
+    if (slideLefts.length) {
+        tl.to(slideLefts, { opacity: 1, x: 0, duration: 0.5, stagger: 0.1 }, 0.5);
+    }
+    if (slideRights.length) {
+        tl.to(slideRights, { opacity: 1, x: 0, duration: 0.5, stagger: 0.1 }, 0.5);
+    }
+
+    if (counters.length) {
+        counters.forEach(el => {
+            const target = parseInt(el.getAttribute('data-count'), 10);
+            const obj = { val: 0 };
+            tl.to(obj, {
+                val: target,
+                duration: 1.2,
+                ease: 'power2.out',
+                onUpdate: () => { el.textContent = Math.floor(obj.val); },
+                onComplete: () => { el.textContent = target; }
+            }, 0.6);
+        });
+    }
+
+    return tl;
+}
+
+/**
+ * Animate a slide out (fast, minimal).
+ */
+function animateSlideOut(slide) {
+    gsap.to(slide.querySelectorAll('.slide-inner > *'), {
+        opacity: 0,
+        duration: 0.2,
+        stagger: 0.015,
+        ease: 'power2.in'
+    });
+}
+
+/**
+ * Main navigation function — FAST version.
+ */
+function goToSlide(index) {
+    if (index < 0 || index >= CONFIG.totalSlides) return;
+
+    const nextSlide = slides[index];
+    if (!nextSlide) return;
+
+    // If same slide, do nothing
+    if (index === state.currentSlide && nextSlide.classList.contains('is-active')) return;
+
+    const previousSlide = slides[state.currentSlide];
+
+    // Reset sub-reveal state
+    state.subRevealIndex = 0;
+    state.subRevealQueue = [];
+    revealHint.classList.remove('is-visible');
+    revealHint.textContent = 'Press Space to continue';
+
+    // Exit the previous slide
+    if (previousSlide && previousSlide !== nextSlide) {
+        animateSlideOut(previousSlide);
+    }
+
+    // Short delay for exit, then swap
+    setTimeout(() => {
+        slides.forEach((s, i) => s.classList.toggle('is-active', i === index));
+        state.currentSlide = index;
+        updateNavUI();
+
+        // Prepare (set opacity 0 on animatable elements)
+        prepareSlide(nextSlide);
+
+        // Animate in
+        requestAnimationFrame(() => {
+            animateSlideIn(nextSlide);
+            setupSubReveal(nextSlide);
+
+            if (nextSlide.id === 'slide-12') {
+                startQuoteTyping();
+            }
+        });
+    }, 120);  // was 250 — now 120, much snappier
+}
+
+/* ============================================================
+   SUB-REVEAL (v2 — reliable spacebar reveal)
+   ============================================================ */
+
+/**
+ * Collect sub-reveal elements for the current slide.
+ * Called AFTER the slide becomes active.
+ */
+function setupSubReveal(slide) {
+    // Reset queue
+    state.subRevealQueue = [];
+    state.subRevealIndex = 0;
+
+    // Only slides with data-subreveal="true" get a queue
+    if (!slide.dataset.subreveal) {
+        revealHint.classList.remove('is-visible');
+        return;
+    }
+
+    // Collect reveal-pending elements inside this slide
+    const pending = Array.from(slide.querySelectorAll('.reveal-pending'));
+
+    if (pending.length === 0) {
+        revealHint.classList.remove('is-visible');
+        return;
+    }
+
+    state.subRevealQueue = pending;
+    state.subRevealIndex = 0;
+
+    // Show the hint
+    revealHint.textContent = `Press Space (${pending.length} more)`;
+    revealHint.classList.add('is-visible');
+}
+
+/**
+ * Reveal the next pending item on the current slide.
+ * Returns true if something was revealed, false if queue is empty.
+ */
+function revealNext() {
+    if (state.subRevealIndex >= state.subRevealQueue.length) return false;
+
+    const el = state.subRevealQueue[state.subRevealIndex];
+    el.classList.add('is-revealed');
+    state.subRevealIndex++;
+
+    const remaining = state.subRevealQueue.length - state.subRevealIndex;
+
+    if (remaining === 0) {
+        revealHint.classList.remove('is-visible');
+    } else {
+        revealHint.textContent = `Press Space (${remaining} more)`;
+    }
+
+    return true;
+}
+
+function hasPendingReveal() {
+    return state.subRevealIndex < state.subRevealQueue.length;
+}
+/* ============================================================
+   CLOSING QUOTE — Typewriter effect (slide 12)
+   ============================================================ */
+
+const CLOSING_QUOTE = 'Rahbar AI is not trying to know everything about every university. It is trying to make sure a student does not miss an important opportunity because they did not know what to do next.';
+
+function startQuoteTyping() {
+    const quoteEl = document.getElementById('closing-quote');
+    if (!quoteEl || state.typingComplete) return;
+
+    // Reset
+    quoteEl.innerHTML = '';
+
+    // Create a span for the typed text and a cursor
+    const textSpan = document.createElement('span');
+    const cursor = document.createElement('span');
+    cursor.className = 'typewriter-cursor';
+    quoteEl.appendChild(textSpan);
+    quoteEl.appendChild(cursor);
+
+    // Use GSAP TextPlugin for smooth typing
+    gsap.registerPlugin(TextPlugin);
+    gsap.to(textSpan, {
+        duration: 5.5,
+        text: {
+            value: CLOSING_QUOTE,
+            delimiter: ''
+        },
+        ease: 'none',
+        onComplete: () => {
+            state.typingComplete = true;
+            // Keep the cursor blinking subtly
+            gsap.to(cursor, { opacity: 0.3, duration: 1.5, delay: 0.5 });
+        }
+    });
+}
+/* ============================================================
+   INPUT HANDLERS
+   ============================================================ */
+
+/**
+ * Advance the deck. Handles sub-reveals first, then slide changes.
+ */
+function advance() {
+    // If current slide has pending sub-reveals, reveal next instead of advancing
+    if (hasPendingReveal()) {
+        revealNext();
+        return;
+    }
+    goToSlide(state.currentSlide + 1);
+}
+
+/**
+ * Go back one slide.
+ */
+function retreat() {
+    goToSlide(state.currentSlide - 1);
+}
+
+// Keyboard controls
+document.addEventListener('keydown', (e) => {
+    // Ignore if user is typing in an input (not applicable here, but good practice)
+    if (e.target.matches('input, textarea')) return;
+
+    switch (e.key) {
+        case 'ArrowRight':
+        case 'ArrowDown':
+        case ' ':
+        case 'PageDown':
+        case 'Enter':
+            e.preventDefault();
+            advance();
+            break;
+
+        case 'ArrowLeft':
+        case 'ArrowUp':
+        case 'PageUp':
+            e.preventDefault();
+            retreat();
+            break;
+
+        case 'Home':
+            e.preventDefault();
+            goToSlide(0);
+            break;
+
+        case 'End':
+            e.preventDefault();
+            goToSlide(CONFIG.totalSlides - 1);
+            break;
+
+        case 'Escape':
+        case '0':
+            e.preventDefault();
+            goToSlide(0);
+            break;
+
+        default:
+            // Number keys 1-9 jump to slide N
+            if (/^[1-9]$/.test(e.key)) {
+                const target = parseInt(e.key, 10) - 1;
+                if (target < CONFIG.totalSlides) {
+                    goToSlide(target);
+                }
+            }
+            break;
+    }
+});
+
+// Click arrows
+navPrev.addEventListener('click', retreat);
+navNext.addEventListener('click', advance);
+
+// Touch swipe support
+let touchStartX = 0;
+let touchStartY = 0;
+
+document.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+}, { passive: true });
+
+document.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].screenX - touchStartX;
+    const dy = e.changedTouches[0].screenY - touchStartY;
+
+    // Ignore if the swipe was primarily vertical
+    if (Math.abs(dx) < Math.abs(dy)) return;
+
+    // Require a minimum swipe distance
+    if (Math.abs(dx) < 50) return;
+
+    if (dx < 0) advance();      // swipe left = next
+    else retreat();             // swipe right = prev
+}, { passive: true });
+/* ============================================================
+   INITIALIZATION (v2 — reliable boot)
+   ============================================================ */
+
+function bootPresentation() {
+    // Register GSAP plugins (idempotent, safe to call)
+    if (window.gsap && window.TextPlugin) {
+        gsap.registerPlugin(TextPlugin);
+    }
+
+    // Setup slide 1
+    const firstSlide = slides[0];
+    if (!firstSlide) {
+        console.error('No slides found. Check HTML structure.');
+        return;
+    }
+
+    firstSlide.classList.add('is-active');
+    state.currentSlide = 0;
+    updateNavUI();
+
+    // Prepare and animate slide 1
+    prepareSlide(firstSlide);
+    animateSlideIn(firstSlide);
+    setupSubReveal(firstSlide);
+
+    // Log welcome
+    console.log(
+        '%c🎓 Rahbar AI — Presentation Loaded',
+        'background: linear-gradient(135deg, #10B981, #F59E0B); color: #000; padding: 6px 14px; border-radius: 6px; font-weight: 700; font-size: 14px;'
+    );
+    console.log(
+        '%cControls: ← → navigate · Space advance · 1-9 jump · Esc restart',
+        'color: #9CA3AF; font-family: monospace; font-size: 12px;'
+    );
+}
+
+// Wait for DOM + GSAP to be ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootPresentation);
+} else {
+    // DOM already loaded
+    bootPresentation();
+}
+
+// Also fire on window load as a safety net
+window.addEventListener('load', () => {
+    // If slide 1 has no opacity animation running, boot again
+    const slide1 = slides[0];
+    const title = slide1.querySelector('.title-hero');
+    if (title && parseFloat(getComputedStyle(title).opacity) < 0.1) {
+        console.warn('Presentation did not boot correctly. Re-booting...');
+        bootPresentation();
+    }
+});
+</script>
+</body>
+</html>
